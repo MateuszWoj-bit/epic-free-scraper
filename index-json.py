@@ -37,8 +37,7 @@ for game_element in game_elements:
 
     print(f"Title: {title}\nLink: {http}{link}\nImage URL: {img_url}\n")
 
-with open('games_data.json', 'w', encoding='utf-8') as jsonfile:
-    # Write the game data to the JSON file
+with open('games_data.json', 'w', encoding='utf-8') as jsonfile:    
     json.dump(games_data, jsonfile, ensure_ascii=False, indent=2)
 
 driver.quit()
