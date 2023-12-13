@@ -17,11 +17,9 @@ html_code = driver.page_source
 
 soup = BeautifulSoup(html_code, 'html.parser')
 
-game_elements = [a for a in soup.find_all('a') if 'Bezpłatne gry' in a.get('aria-label', '')]
-
+game_elements = soup.select('a.css-g3jcms') 
 
 with open('games_data.csv', 'w', newline='', encoding='utf-8') as csvfile:
-   
     csv_writer = csv.writer(csvfile)
     csv_writer.writerow(['Title', 'Link', 'Image URL'])
 
@@ -31,9 +29,12 @@ with open('games_data.csv', 'w', newline='', encoding='utf-8') as csvfile:
 
         img_element = game_element.find('img', class_='css-174g26k')
         img_url = img_element['src'] if img_element else 'No Image Found'
+        
+        is_free = "teraz bezpłatnie" in game_element.text.lower()
 
-        csv_writer.writerow([title, f"{http}{link}", img_url])
-
-        print(f"Title: {title}\nLink: {http}{link}\nImage URL: {img_url}\n")
+        if is_free:
+            csv_writer.writerow([title, f"{http}{link}", img_url])
+            print(f"Title: {title}\nLink: {http}{link}\nImage URL: {img_url}\n")
 
 driver.quit()
+
